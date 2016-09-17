@@ -27,7 +27,7 @@ var count = 0;
 router.use( bodyParser.json() );
 
 function createUser( request, response ){
-	var user = request.body;
+    var user = request.body;
     var id = count+= 1;
     database[id] = user;
     console.log( 'Create user' + id + user );
@@ -55,7 +55,7 @@ function readUser( request, response ){
     console.log( 'Read User' + id + user);
  
     response.writeHead( 200, {
-    'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json'
     });
     response.end( JSON.stringify(user) );
 }
@@ -79,26 +79,26 @@ function updateUser( request, response ){
  
     database[ id ] = user;
     response.writeHead( 201, {
-    'Content-Type' : 'application/json',
-    'Location' : '/api/users/' + id
+        'Content-Type' : 'application/json',
+        'Location' : '/api/users/' + id
     });
     response.end( JSON.stringify(user) );
 }
 router.put( '/api/users/:id', updateUser );
 
 
-function readUsers( request, response ) {
+function readUsers( request, response ){
     var user;
     var userList = [];
  
-    for( id in database ) {
+    for( id in database ){
     if( !database.hasOwnProperty( id ) ){
-      continue;
+        continue;
     }
     user = database[ id ];
  
     if( typeof user !== 'object' ){
-      continue;
+        continue;
     }
  
     userList.push( user );
@@ -115,23 +115,23 @@ router.get( '/api/users', readUsers );
 
 
 
-function deleteUser( request, response ) {
-   var id = request.params.id;
+function deleteUser( request, response ){
+    var id = request.params.id;
  
-   if ( typeof database[ id ] !== 'object' ) {
-   console.log( 'User not found' + id );
-   response.writeHead( 404 );
-   response.end( '' );
-   return;
-   }
+    if( typeof database[ id ] !== 'object' ){
+        console.log( 'User not found' + id );
+        response.writeHead( 404 );
+        response.end( '' );
+        return;
+    }
  
-   console.log( 'Delete user' + id);
+    console.log( 'Delete user' + id);
  
-   database[ id ] = undefined;
-   response.writeHead( 204, {
-   'Content-Type' : 'application/json'
-   });
-   response.end( '' );
+    database[ id ] = undefined;
+    response.writeHead( 204, {
+        'Content-Type' : 'application/json'
+    });
+    response.end( '' );
 }
 router.delete( '/api/users/:id', deleteUser );
 
